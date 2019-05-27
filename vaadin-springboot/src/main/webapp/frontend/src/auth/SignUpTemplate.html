@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+
+<dom-module id="sign-up-template">
+	<template>
+		<vaadin-vertical-layout>
+			<vaadin-text-field id="firstname" placeholder="Firstname"></vaadin-text-field>
+			<vaadin-text-field id="lastname" placeholder="Lastname"></vaadin-text-field>
+			<vaadin-text-field id="username" placeholder="Username"></vaadin-text-field>
+			<vaadin-password-field id="password" placeholder="Password"></vaadin-password-field>
+			<vaadin-password-field id="confirm_password" placeholder="Confirm Password"></vaadin-password-field>
+			<vaadin-button on-click="onClick">Sign Up</vaadin-button>
+		</vaadin-vertical-layout>
+	</template>
+	<script>
+		class SignUpTemplate extends Polymer.Element {
+			static get is() {
+				return 'sign-up-template';
+			}
+		}
+		
+		customElements.define(SignUpTemplate.is, SignUpTemplate);
+	</script>
+</dom-module>

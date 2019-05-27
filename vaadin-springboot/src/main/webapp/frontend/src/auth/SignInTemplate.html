@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+
+<dom-module id="sign-in-template">
+	<template>
+		<style>
+			.button {
+			}
+		</style>
+		<vaadin-vertical-layout>
+			<vaadin-text-field id="username" placeholder="Username"></vaadin-text-field>
+			<vaadin-password-field id="password" placeholder="Password"></vaadin-password-field>
+			<vaadin-button class="button" on-click="onClick">Sign In</vaadin-button>
+		</vaadin-vertical-layout>
+	</template>
+	<script>
+		class SignInTemplate extends Polymer.Element {
+			static get is() {
+				return 'sign-in-template';
+			}
+		}
+		
+		customElements.define(SignInTemplate.is, SignInTemplate);
+	</script>
+</dom-module>
