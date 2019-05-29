@@ -9,4 +9,6 @@ public interface LoginForm {
 	
 	void onLoginRequest(Consumer<LoginRequest> loginConsumer);
 	void onSignUpRequest(Consumer<SignUpRequest> signUpConsumer);
+	
+	void setErrorMessage(String errorMessage);
 }

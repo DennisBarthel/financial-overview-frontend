@@ -15,10 +15,11 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 import de.netos.auth.login.LoginRequest;
+import de.netos.ui.login.view.SignInTemplate.SignInTemplateModel;
 
 @Tag("sign-in-template")
 @HtmlImport("frontend://src/auth/SignInTemplate.html")
-public class SignInTemplate extends PolymerTemplate<TemplateModel> {
+public class SignInTemplate extends PolymerTemplate<SignInTemplateModel> implements AuthTemplate {
 	
 	private Binder<LoginRequest> signUpBinder;
 	private final Consumer<LoginRequest> loginConsumer;
@@ -52,5 +53,16 @@ public class SignInTemplate extends PolymerTemplate<TemplateModel> {
 		if (signUpBinder.writeBeanIfValid(loginRequest)) {
 			loginConsumer.accept(loginRequest);
 		}
+	}
+	
+	@Override
+	public void setErrorMessage(String errorMessage) {
+		getModel().setShowError(true);
+		getModel().setError(errorMessage);
+	}
+	
+	public interface SignInTemplateModel extends TemplateModel {
+		void setShowError(boolean showError);
+		void setError(String error);
 	}
 }

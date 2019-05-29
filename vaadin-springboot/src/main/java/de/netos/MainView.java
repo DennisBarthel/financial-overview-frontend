@@ -1,5 +1,7 @@
 package de.netos;
 
+import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class MainView extends VerticalLayout {
 
 	@PostConstruct
 	private void init() {
+		Locale.setDefault(Locale.ENGLISH);
+		
 		Dialog dialog = new Dialog(loginForm);
 		dialog.open();
 		dialog.setCloseOnOutsideClick(false);

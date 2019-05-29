@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
 <link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
 <link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
@@ -6,10 +7,17 @@
 <dom-module id="sign-in-template">
 	<template>
 		<style>
-			.button {
+			.error {
+				color: red;
+				font-size: 12px;
 			}
 		</style>
 		<vaadin-vertical-layout>
+			<template is="dom-if" if="[[showError]]">
+				<div class="error">
+					[[error]]
+				</div>
+			</template>
 			<vaadin-text-field id="username" placeholder="Username"></vaadin-text-field>
 			<vaadin-password-field id="password" placeholder="Password"></vaadin-password-field>
 			<vaadin-button class="button" on-click="onClick">Sign In</vaadin-button>

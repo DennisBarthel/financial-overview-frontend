@@ -4,33 +4,51 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import de.netos.auth.login.LoginRequest;
-import de.netos.rest.OAuthAuthorazationInterceptor;
+import de.netos.auth.login.LoginResponse;
+import de.netos.rest.RestResponseErrorHandler;
 
+@Service
 public class AuthService {
 	
-	public void login(String email, String password) throws URISyntaxException {
-		URI build = new URIBuilder().setScheme("http").setHost("localhost").setPort(8090).setPath("/v1/account/").build();
+	@Autowired
+	private RestTemplateBuilder templateBuilder;
+	
+	@Autowired
+	private RestResponseErrorHandler errorHandler;
+	
+	/**
+	 * 
+	 * 
+	 * @param loginRequest
+	 * @return Response to the login request.
+	 * 
+	 * @throws HttpClientErrorException - if there was an error that was forced by the client. e.g. bad credentials for a login or an unknown username.
+	 * @throws HttpServerErrorException - if there was an internal error in the server.
+	 * @see LoginResponse
+	 */
+	public LoginResponse login(LoginRequest loginRequest) {
+		RestTemplate template = templateBuilder.errorHandler(errorHandler).build();
 		
-		LoginRequest loginRequest = new LoginRequest();
-		loginRequest.setEmail(email);
-		loginRequest.setPassword(password);
+		URI build = null;
+		try {
+			build = new URIBuilder().setScheme("http").setHost("localhost").setPort(8090).setPath("/auth/login/").build();
+		} catch (URISyntaxException e) {
+			throw new IllegalStateException(); 
+		}
 		
 		HttpEntity<LoginRequest> entity = new HttpEntity<>(loginRequest);
+		ResponseEntity<LoginResponse> response = template.postForEntity(build, entity, LoginResponse.class);
 		
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getInterceptors().add(new OAuthAuthorazationInterceptor("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW5uaXMuYmFydGhlbC44M0BnbWFpbC5jb20iLCJleHAiOjE1NTg2NTc3NDQsImlhdCI6MTU1ODY1Njg0NH0.t8L9jiAWXyOPu31qpqaQwTHaWxqsUSxI7GVjM3KvRqbMIVj9272-_U6emG1D6z4HRII2NbJtwtPKH1oYUaX4qQ"));
-		ResponseEntity<String> responseEntity = restTemplate.getForEntity(build, String.class);
-		
-		System.out.println();
-	}
-	
-	public static void main(String[] args) throws URISyntaxException {
-		AuthService service = new AuthService();
-		service.login("", "");
+		return response.getBody();
 	}
 }

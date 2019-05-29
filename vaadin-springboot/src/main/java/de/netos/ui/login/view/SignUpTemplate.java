@@ -20,7 +20,7 @@ import de.netos.auth.signup.SignUpRequest;
 
 @Tag("sign-up-template")
 @HtmlImport("frontend://src/auth/SignUpTemplate.html")
-public class SignUpTemplate extends PolymerTemplate<TemplateModel> {
+public class SignUpTemplate extends PolymerTemplate<TemplateModel> implements AuthTemplate {
 	
 	private Binder<SignUpRequest> binder;
 	private final Consumer<SignUpRequest> signUpConsumer;
@@ -67,6 +67,12 @@ public class SignUpTemplate extends PolymerTemplate<TemplateModel> {
 		if (binder.writeBeanIfValid(signUpRequest)) {
 			signUpConsumer.accept(signUpRequest);
 		}
+	}
+	
+	@Override
+	public void setErrorMessage(String errorMessage) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private class PasswordEqualValidator extends AbstractValidator<String> {

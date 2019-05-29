@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -31,13 +32,15 @@ public class LoginFormImpl extends VerticalLayout implements LoginForm {
 	private Consumer<LoginRequest> loginConsumer;
 	private Consumer<SignUpRequest> signUpConsumer;
 	
+	private AuthTemplate authTemplate;
+	
 	@PostConstruct
 	private void init() {
 		loginViewListeners.forEach(listener -> listener.viewInit(this));
 		
 		tabs.addSelectedChangeListener(this::changeSelection);
 		tabs.setFlexGrowForEnclosedTabs(1);
-		
+
 		Tab signInTab = new Tab("Sign In");
 		Tab signUpTab = new Tab("Sign Up");
 		
@@ -52,12 +55,13 @@ public class LoginFormImpl extends VerticalLayout implements LoginForm {
 		
 		content.removeAll();
 		if (selectedIndex == 0) {
-			content.add(new SignInTemplate(loginConsumer));
+			authTemplate = new SignInTemplate(loginConsumer);
 		} else if (selectedIndex == 1) {
-			content.add(new SignUpTemplate(signUpConsumer));
+			authTemplate = new SignUpTemplate(signUpConsumer);
 		} else {
 			throw new IllegalStateException("Unknown selected tab: " + selectedIndex);
 		}
+		content.add((Component) authTemplate);
 	}
 	
 	@Override
@@ -68,5 +72,10 @@ public class LoginFormImpl extends VerticalLayout implements LoginForm {
 	@Override
 	public void onSignUpRequest(Consumer<SignUpRequest> signUpConsumer) {
 		this.signUpConsumer = signUpConsumer;
+	}
+	
+	@Override
+	public void setErrorMessage(String errorMessage) {
+		authTemplate.setErrorMessage(errorMessage);
 	}
 }
