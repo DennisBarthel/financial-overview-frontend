@@ -1,11 +1,13 @@
 package de.netos.ui;
 
 import static java.util.Locale.ENGLISH;
-import static java.util.ResourceBundle.getBundle;
+import static java.util.Locale.GERMAN;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.vaadin.flow.i18n.I18NProvider;
@@ -16,10 +18,15 @@ public class VaadinI18NProvider implements I18NProvider {
 	
 	private static final String RESOURCE_BUNDLE_NAME = "messages";
 	
-	private static final ResourceBundle RESOURCE_BUNDLE_EN = getBundle(RESOURCE_BUNDLE_NAME , ENGLISH);
+	private final List<Locale> providedLocales = Arrays.asList(ENGLISH, GERMAN);
 	
-	private static final List<Locale> providedLocales = Arrays.asList(Locale.ENGLISH, Locale.GERMAN);
+	private Map<Locale, ResourceBundle> resourceBundleMap = new HashMap<>();
 
+	public VaadinI18NProvider() {
+		resourceBundleMap.put(ENGLISH, ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, ENGLISH));
+		resourceBundleMap.put(GERMAN, ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, GERMAN));
+	}
+	
 	@Override
 	public List<Locale> getProvidedLocales() {
 		return providedLocales;
@@ -27,17 +34,18 @@ public class VaadinI18NProvider implements I18NProvider {
 
 	@Override
 	public String getTranslation(String key, Locale locale, Object... params) {
-		ResourceBundle bundle = null;
+		String transformedKey = transformKey(key);
 		
-		if (Locale.ENGLISH.equals(locale)) {
-			bundle = RESOURCE_BUNDLE_EN;
-		}
+		ResourceBundle bundle = resourceBundleMap.get(locale);
 		
-		if (bundle.containsKey(key)) {
-			return bundle.getString(key);
+		if (bundle.containsKey(transformedKey)) {
+			return bundle.getString(transformedKey);
 		} else {
-			return key + "_" + locale;
+			return transformedKey;
 		}		
 	}
 
+	private String transformKey(String key) {
+		return key.replaceAll(" ", ".").toLowerCase();
+	}
 }

@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="account-list">
+	<template>
+		<style include="shared-styles"></style>
+		<style>
+      		:host {
+        		display: flex;
+        		flex-direction: column;
+        		height: 100%;
+        		width: 100%;
+        		grid-broder-width: 0px;
+        		
+      		}
+      		
+      		.row {
+        		display: flex;
+        		align-items: center;
+        		height: 3em;
+      		}
+    	</style>
+	
+		<div class="row">
+			<vaadin-button id="new">
+				<iron-icon icon="lumo:plus"></iron-icon>
+			</vaadin-button>
+		</div>
+		<vaadin-grid id="grid" theme="orders no-row-borders"></vaadin-grid>
+	</template>
+	<script>
+		class AccountList extends Polymer.Element {
+			static get is() {
+				return 'account-list';
+			}
+		}
+		
+		customElements.define(AccountList.is, AccountList);
+	</script>
+</dom-module>

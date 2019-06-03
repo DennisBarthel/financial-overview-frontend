@@ -1,11 +1,19 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
 <link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
 <link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../shared-styles.html">
 
 <dom-module id="sign-up-template">
 	<template>
+		<style include="shared-styles"></style>
 		<vaadin-vertical-layout>
+			<template is="dom-if" if="[[showError]]">
+				<div class="error_message">
+					[[error]]
+				</div>
+			</template>
 			<vaadin-text-field id="firstname" placeholder="Firstname"></vaadin-text-field>
 			<vaadin-text-field id="lastname" placeholder="Lastname"></vaadin-text-field>
 			<vaadin-text-field id="username" placeholder="Username"></vaadin-text-field>

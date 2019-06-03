@@ -17,10 +17,11 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 import de.netos.auth.signup.SignUpRequest;
+import de.netos.ui.login.view.SignUpTemplate.SignUpTemplateModel;
 
 @Tag("sign-up-template")
 @HtmlImport("frontend://src/auth/SignUpTemplate.html")
-public class SignUpTemplate extends PolymerTemplate<TemplateModel> implements AuthTemplate {
+public class SignUpTemplate extends PolymerTemplate<SignUpTemplateModel> implements AuthTemplate {
 	
 	private Binder<SignUpRequest> binder;
 	private final Consumer<SignUpRequest> signUpConsumer;
@@ -71,8 +72,13 @@ public class SignUpTemplate extends PolymerTemplate<TemplateModel> implements Au
 	
 	@Override
 	public void setErrorMessage(String errorMessage) {
-		// TODO Auto-generated method stub
-		
+		getModel().setShowError(true);
+		getModel().setError(errorMessage);
+	}
+	
+	public interface SignUpTemplateModel extends TemplateModel {
+		void setShowError(boolean showError);
+		void setError(String error);
 	}
 	
 	private class PasswordEqualValidator extends AbstractValidator<String> {

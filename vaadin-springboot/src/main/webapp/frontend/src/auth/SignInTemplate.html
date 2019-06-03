@@ -3,18 +3,14 @@
 <link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
 <link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
 <link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../shared-styles.html">
 
 <dom-module id="sign-in-template">
 	<template>
-		<style>
-			.error {
-				color: red;
-				font-size: 12px;
-			}
-		</style>
+		<style include="shared-styles"></style>
 		<vaadin-vertical-layout>
 			<template is="dom-if" if="[[showError]]">
-				<div class="error">
+				<div class="error_message">
 					[[error]]
 				</div>
 			</template>

@@ -12,7 +12,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import de.netos.auth.login.LoginRequest;
 import de.netos.auth.signup.SignUpRequest;
 import de.netos.rest.auth.AuthService;
-import de.netos.ui.login.view.LoginForm;
+import de.netos.ui.login.TemplateType;
+import de.netos.ui.login.view.Login;
 import de.netos.ui.login.view.LoginViewListener;
 
 @SpringComponent
@@ -25,10 +26,10 @@ public class LoginPresenter implements LoginViewListener {
 	@Autowired
 	private I18NProvider translationProvider;
 
-	private LoginForm form;
+	private Login form;
 	
 	@Override
-	public void viewInit(LoginForm loginForm) {
+	public void viewInit(Login loginForm) {
 		this.form = loginForm;
 		
 		form.onLoginRequest(this::login);
@@ -38,18 +39,18 @@ public class LoginPresenter implements LoginViewListener {
 	private void login(LoginRequest loginRequest) {
 		try {
 			authService.login(loginRequest);
+			form.setLoginSuccessful();
 		} catch (HttpClientErrorException e) {
-			String key = get(e.getStatusText());
-			String translation = translationProvider.getTranslation(key, Locale.getDefault());
-			form.setErrorMessage(translation);
+			form.setErrorMessage(translationProvider.getTranslation(e.getStatusText(), Locale.getDefault()));
 		}
 	}
 	
-	private String get(String key) {
-		return key.replaceAll(" ", ".").toLowerCase();
-	}
-	
 	private void signUp(SignUpRequest signUpRequest) {
-		System.out.println(signUpRequest.getFirstname() + " " + signUpRequest.getLastname());
+		try {
+			authService.register(signUpRequest);
+			form.changeTemplate(TemplateType.LOGIN);
+		} catch (HttpClientErrorException e) {
+			form.setErrorMessage(translationProvider.getTranslation(e.getStatusText(), Locale.getDefault()));
+		}
 	}
 }

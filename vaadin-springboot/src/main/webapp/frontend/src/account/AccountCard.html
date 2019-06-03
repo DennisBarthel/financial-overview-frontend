@@ -1,0 +1,114 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+
+<dom-module id="account-card">
+	<template>
+		<style>
+			* {
+	        box-sizing: border-box;
+	        font-family: verdana;
+	      }
+	    
+	      .wrapper {
+	        background-color: white;
+	        box-shadow: 2px 2px;
+	        border-radius: 10px;
+	        padding: 10px;
+	        width: 700px;
+	        margin-left: auto;
+	        margin-right: auto;
+	        display: table;
+	        margin-top: 6px;
+	      }
+	      
+	      .text {
+	        float: left;
+	        width: 33.33%;
+	      }
+	      
+	      .number-name-wrapper {
+	        padding-top: 30px;
+	        padding-left: 10px;
+	        padding-bottom: 30px;
+	      }
+	      
+	      .type-wrapper {
+	        padding-top: 35px;
+	        padding-left: 30px;
+	        padding-bottom: 35px;
+	      }
+	      
+	      .balance-wrapper {
+	        padding-top: 30px;
+	        padding-bottom: 5px;
+	        text-align: right;
+	      }
+	      
+	      .number {
+	        font-size: 16px;
+	      }
+	      
+	      .name {
+	        font-size: 12px;
+	      }
+	      
+	      .type {
+	        font-size: 20px;
+	      }
+	      
+	      .balance {
+	        font-size: 20px;
+	        font-weight: bold;
+	      }
+	      
+	      .date {
+	        font-size: 10px;
+	      }
+		</style>
+	
+		<div class="wrapper">
+	      	<div class="text number-name-wrapper">
+	        	<div class="number">[[accountNumber]]</div>
+	        	<div class="name">[[name]]</div>
+	      	</div>
+	      	<div class="text type-wrapper">
+	        	<div class="type">[[type]]</div>
+	      	</div>
+	      	<div class="text balance-wrapper">
+	        	<div class="balance">C$ [[balance]]</div>
+	        	<div class="date">(As of [[date]])</div>
+	        	<br>
+	        	<vaadin-button on-click="editClick">
+	        		<iron-icon icon="lumo:edit"></iron-icon>
+	        	</vaadin-button>	        
+	        	<vaadin-button on-click="detailClick">
+	        		<iron-icon icon="lumo:arrow-right"></iron-icon>
+	        	</vaadin-button>
+	        	<vaadin-button on-click="deleteClick">
+	        		<iron-icon icon="lumo:cross"></iron-icon>
+	        	</vaadin-button>
+	      	</div>
+		</div>
+	</template>
+	<script>
+		class AccountCard extends Polymer.Element {
+			static get is() {
+				return 'account-card';
+			}
+			
+			editClick() {
+				this.dispatchEvent(new CustomEvent('edit'));
+			}
+			
+			detailClick() {
+				this.dispatchEvent(new CustomEvent('detail'));
+			}
+			
+			deleteClick() {
+				this.dispatchEvent(new CustomEvent('delete'));
+			}
+		}
+		
+		customElements.define(AccountCard.is, AccountCard);
+	</script>
+</dom-module>

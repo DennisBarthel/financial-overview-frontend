@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-dialog/vaadin-dialog.html">
+<link rel="import" href="../../bower_components/vaadin-form-layout/vaadin-form-layout.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+
+<dom-module id="account-form">
+	<template>
+		<vaadin-form-layout>
+			<vaadin-text-field id="name" label="Account Name"></vaadin-text-field>
+			<vaadin-text-field id="number"></vaadin-text-field>
+			<vaadin-combo-box id="type"></vaadin-combo-box>
+			<vaadin-combo-box id="currency"></vaadin-combo-box>
+		</vaadin-form-layout>
+	</template>
+	<script>
+		class AccountForm extends Polymer.Element {
+			static get is() {
+				return 'account-form';
+			}
+		}
+		
+		customElements.define(AccountForm.is, AccountForm);
+	</script>
+</dom-module>

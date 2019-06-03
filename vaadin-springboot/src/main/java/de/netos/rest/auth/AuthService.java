@@ -3,6 +3,8 @@ package de.netos.rest.auth;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import de.netos.auth.login.LoginRequest;
 import de.netos.auth.login.LoginResponse;
+import de.netos.auth.signup.SignUpRequest;
 import de.netos.rest.RestResponseErrorHandler;
 
 @Service
@@ -25,6 +28,15 @@ public class AuthService {
 	
 	@Autowired
 	private RestResponseErrorHandler errorHandler;
+	
+	private RestTemplate template;
+	
+	@PostConstruct
+	private void init() {
+		template = templateBuilder
+			.errorHandler(errorHandler)
+			.build();
+	}
 	
 	/**
 	 * 
@@ -37,8 +49,6 @@ public class AuthService {
 	 * @see LoginResponse
 	 */
 	public LoginResponse login(LoginRequest loginRequest) {
-		RestTemplate template = templateBuilder.errorHandler(errorHandler).build();
-		
 		URI build = null;
 		try {
 			build = new URIBuilder().setScheme("http").setHost("localhost").setPort(8090).setPath("/auth/login/").build();
@@ -50,5 +60,17 @@ public class AuthService {
 		ResponseEntity<LoginResponse> response = template.postForEntity(build, entity, LoginResponse.class);
 		
 		return response.getBody();
+	}
+	
+	public void register(SignUpRequest signUpRequest) {
+		URI build = null;
+		try {
+			build = new URIBuilder().setScheme("http").setHost("localhost").setPort(8090).setPath("/auth/register/").build();
+		} catch (URISyntaxException e) {
+			throw new IllegalStateException(); 
+		}
+		
+		HttpEntity<SignUpRequest> entity = new HttpEntity<>(signUpRequest);
+		template.postForEntity(build, entity, String.class);
 	}
 }

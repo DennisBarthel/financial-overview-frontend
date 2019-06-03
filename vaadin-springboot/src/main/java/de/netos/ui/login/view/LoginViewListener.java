@@ -2,5 +2,5 @@ package de.netos.ui.login.view;
 
 public interface LoginViewListener {
 
-	void viewInit(LoginForm loginForm);
+	void viewInit(Login loginForm);
 }
