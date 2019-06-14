@@ -13,14 +13,16 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
 
 import de.netos.auth.login.LoginRequest;
 import de.netos.auth.signup.SignUpRequest;
 import de.netos.ui.login.TemplateType;
 import de.netos.util.Callback;
 
-//@SpringComponent
-//@UIScope
+@SpringComponent
+@UIScope
 public class LoginDialog extends Dialog implements Login {
 
 	@Autowired

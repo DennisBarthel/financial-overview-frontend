@@ -3,15 +3,23 @@
 <link rel="import" href="../../bower_components/vaadin-form-layout/vaadin-form-layout.html">
 <link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
 <link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-horizontal-layout.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
 
 <dom-module id="account-form">
 	<template>
+		<h2 style="text-align:center">{{titleText}}</h2>
 		<vaadin-form-layout>
 			<vaadin-text-field id="name" label="Account Name"></vaadin-text-field>
-			<vaadin-text-field id="number"></vaadin-text-field>
-			<vaadin-combo-box id="type"></vaadin-combo-box>
-			<vaadin-combo-box id="currency"></vaadin-combo-box>
+			<vaadin-text-field id="number" label="Account Number"></vaadin-text-field>
+			<vaadin-combo-box id="type" label="Account Type"></vaadin-combo-box>
+			<vaadin-combo-box id="currency" label="Account Currency"></vaadin-combo-box>
 		</vaadin-form-layout>
+		<br>
+		<vaadin-horizontal-layout theme="spacing-s">
+			<vaadin-button id="cancelButton" theme="primary" class="button">{{cancelText}}</vaadin-button>
+			<vaadin-button id="saveButton" theme="primary" class="button">{{saveText}}</vaadin-button>
+		</vaadin-horizontal-layout>
 	</template>
 	<script>
 		class AccountForm extends Polymer.Element {

@@ -18,4 +18,8 @@ public class AuthTokenStore {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+	
+	public boolean isUserLoggedIn() {
+		return accessToken != null;
+	}
 }

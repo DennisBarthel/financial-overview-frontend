@@ -46,6 +46,12 @@ public class VaadinI18NProvider implements I18NProvider {
 	}
 
 	private String transformKey(String key) {
-		return key.replaceAll(" ", ".").toLowerCase();
+		if (key.contains(" ")) {
+			return key.replaceAll(" ", ".").toLowerCase();
+		}
+		if (key.contains("_")) {
+			return key.replaceAll("_", ".").toLowerCase();
+		}
+		return key.toLowerCase();
 	}
 }
